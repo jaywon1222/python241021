@@ -1,0 +1,38 @@
+import os
+import shutil
+
+# 다운로드 폴더 경로
+download_folder = r'C:\Users\student\Downloads'
+
+# 이동할 폴더 경로
+image_folder = os.path.join(download_folder, 'images')
+data_folder = os.path.join(download_folder, 'data')
+docs_folder = os.path.join(download_folder, 'docs')
+archive_folder = os.path.join(download_folder, 'archive')
+
+# 이동할 폴더가 없으면 생성
+folders = [image_folder, data_folder, docs_folder, archive_folder]
+for folder in folders:
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+
+# 파일 확장자에 따라 파일 이동
+for filename in os.listdir(download_folder):
+    file_path = os.path.join(download_folder, filename)
+    
+    # 파일만 처리
+    if os.path.isfile(file_path):
+        # 이미지 파일 이동
+        if filename.lower().endswith(('.jpg', '.jpeg')):
+            shutil.move(file_path, image_folder)
+        # 데이터 파일 이동
+        elif filename.lower().endswith(('.csv', '.xlsx')):
+            shutil.move(file_path, data_folder)
+        # 문서 파일 이동
+        elif filename.lower().endswith(('.txt', '.doc', '.pdf')):
+            shutil.move(file_path, docs_folder)
+        # 압축 파일 이동
+        elif filename.lower().endswith('.zip'):
+            shutil.move(file_path, archive_folder)
+
+print("파일 이동이 완료되었습니다.")
